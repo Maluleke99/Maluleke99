@@ -1,0 +1,67 @@
+
+#Importing necessary packages
+
+import speech_recognition as sr
+import nltk
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+import joblib
+
+# Load pre-trained sentiment analysis model
+
+sid = SentimentIntensityAnalyzer()
+
+# Load pre-trained candidate evaluation model (e.g., scikit-learn)
+
+# Function to record speech using a microphone
+
+def record_speech():
+    recognizer = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Please speak:")
+        audio = recognizer.listen(source)
+
+    try:
+        text = recognizer.recognize_google(audio)
+        return text
+    except sr.UnknownValueError:
+        print("Sorry, I couldn't understand.")
+        return None
+
+# Function to analyze sentiment
+
+def analyze_sentiment(text):
+    sentiment_scores = sid.polarity_scores(text)
+    return sentiment_scores
+
+# Function to evaluate a candidate response
+def evaluate_candidate_response(text):
+    # Use your pre-trained machine learning model for evaluation
+    # Replace this with your actual evaluation code
+    return None
+
+if __name__ == "__main__":
+    while True:
+        print("Starting a new interview...")
+        # Record candidate's response
+        response = record_speech()
+ if response:
+            print("Candidate's Response:", response)
+            # Analyze sentiment
+            sentiment_scores = analyze_sentiment(response)
+            print("Sentiment Scores:", sentiment_scores)
+
+            # Evaluate the candidate response
+            evaluation_result = evaluate_candidate_response(response)
+            print("Evaluation Result:", evaluation_result)
+
+            # End the interview or continue with more questions
+            choice = input("Do you want to continue the interview? (yes/no): ").lower()
+            if choice != 'yes':
+                print("Interview ended.")
+                break
+
+
+
+
+
+
